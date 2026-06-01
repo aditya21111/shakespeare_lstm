@@ -10,6 +10,7 @@ model=load_model('next_word_lstm.h5')
 with open('tokenzer.pkl','rb') as handle:
     tokenizer=pickle.load(handle)
 
+input_seq_len = 30
 
 def prediction(text:str, n_word:int)->str:
     """
@@ -48,8 +49,8 @@ def prediction(text:str, n_word:int)->str:
 
 st.title("Next word prediction with LSTM")
 input_text=st.text_input("Enter the sequence of words",'to be or not to be')
-input_no=st.text_input("Enter no of words to generate",'2')
+input_no=int(st.text_input("Enter no of words to generate",'2'))
 if st.button("predict next word"):
     max_sequence_len=model.input_shape[1]+1
-    next_word=prediction(model,tokenizer,input_text,max_sequence_len)
+    next_word=prediction(input_text,input_no)
     st.write(f'{next_word}')
